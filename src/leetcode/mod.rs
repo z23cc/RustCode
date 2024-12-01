@@ -6,4 +6,6 @@ pub mod p0005_longest_palindrome;
 pub mod p0006_zigzag_conversion;
 pub mod p0007_reverse_integer;
 pub mod p0008_string_to_integer;
+pub mod p0009_palindrome_number;
+pub mod p0010_regular_expression;
 pub mod functional_practice; 

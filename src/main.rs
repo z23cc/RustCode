@@ -61,6 +61,18 @@ use leetcode::p0008_string_to_integer::{
     solution_optimized as atoi_optimized,
 };
 
+use leetcode::p0009_palindrome_number::{
+    solution_traditional as palindrome_number_traditional,
+    solution_functional as palindrome_number_functional,
+    solution_optimized as palindrome_number_optimized,
+};
+
+use leetcode::p0010_regular_expression::{
+    solution_traditional as regex_traditional,
+    solution_functional as regex_functional,
+    solution_optimized as regex_optimized,
+};
+
 fn main() {
     println!("测试基本迭代器操作：");
     iterator_basics::demonstrate_iterator_basics();
@@ -97,6 +109,8 @@ fn main() {
     test_zigzag_conversion();
     test_reverse_integer();
     test_string_to_integer();
+    test_palindrome_number();
+    test_regular_expression();
 }
 
 fn test_two_sum() {
@@ -354,6 +368,65 @@ fn test_string_to_integer() {
         println!("函数式解法结果: {}", result2);
         
         let result3 = atoi_optimized::my_atoi(s.to_string());
+        println!("优化解法结果: {}", result3);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+    }
+}
+
+fn test_palindrome_number() {
+    let test_cases = vec![
+        121,        // true
+        -121,       // false
+        10,         // false
+        0,          // true
+        12321,      // true
+        12345,      // false
+        1000021,    // false
+    ];
+
+    for x in test_cases {
+        println!("\n测试用例: x = {}", x);
+        
+        let result1 = palindrome_number_traditional::is_palindrome(x);
+        println!("传统解法结果: {}", result1);
+        
+        let result2 = palindrome_number_functional::is_palindrome(x);
+        println!("函数式解法结果: {}", result2);
+        
+        let result3 = palindrome_number_optimized::is_palindrome(x);
+        println!("优化解法结果: {}", result3);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+    }
+}
+
+fn test_regular_expression() {
+    let test_cases = vec![
+        ("aa", "a"),             // false
+        ("aa", "a*"),            // true
+        ("ab", ".*"),            // true
+        ("mississippi", "mis*is*p*."), // false
+        ("aab", "c*a*b"),        // true
+        ("", ".*"),              // true
+        ("a", "ab*"),            // true
+        ("aaa", "a*a"),          // true
+    ];
+
+    for (s, p) in test_cases {
+        println!("\n测试用例: s = \"{}\", p = \"{}\"", s, p);
+        
+        let result1 = regex_traditional::is_match(s.to_string(), p.to_string());
+        println!("传统解法结果: {}", result1);
+        
+        let result2 = regex_functional::is_match(s.to_string(), p.to_string());
+        println!("函数式解法结果: {}", result2);
+        
+        let result3 = regex_optimized::is_match(s.to_string(), p.to_string());
         println!("优化解法结果: {}", result3);
         
         // 验证三种解法结果一致

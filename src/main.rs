@@ -73,6 +73,36 @@ use leetcode::p0010_regular_expression::{
     solution_optimized as regex_optimized,
 };
 
+use leetcode::p0011_container_with_most_water::{
+    solution_traditional as container_traditional,
+    solution_functional as container_functional,
+    solution_optimized as container_optimized,
+};
+
+use leetcode::p0012_integer_to_roman::{
+    solution_traditional as roman_traditional,
+    solution_functional as roman_functional,
+    solution_optimized as roman_optimized,
+};
+
+use leetcode::p0013_roman_to_integer::{
+    solution_traditional as roman_to_int_traditional,
+    solution_functional as roman_to_int_functional,
+    solution_optimized as roman_to_int_optimized,
+};
+
+use leetcode::p0014_longest_common_prefix::{
+    solution_traditional as prefix_traditional,
+    solution_functional as prefix_functional,
+    solution_optimized as prefix_optimized,
+};
+
+use leetcode::p0015_three_sum::{
+    solution_traditional as three_sum_traditional,
+    solution_functional as three_sum_functional,
+    solution_optimized as three_sum_optimized,
+};
+
 fn main() {
     println!("测试基本迭代器操作：");
     iterator_basics::demonstrate_iterator_basics();
@@ -111,6 +141,11 @@ fn main() {
     test_string_to_integer();
     test_palindrome_number();
     test_regular_expression();
+    test_container_with_most_water();
+    test_integer_to_roman();
+    test_roman_to_integer();
+    test_longest_common_prefix();
+    test_three_sum();
 }
 
 fn test_two_sum() {
@@ -428,6 +463,151 @@ fn test_regular_expression() {
         
         let result3 = regex_optimized::is_match(s.to_string(), p.to_string());
         println!("优化解法结果: {}", result3);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+    }
+}
+
+fn test_container_with_most_water() {
+    let test_cases = vec![
+        vec![1,8,6,2,5,4,8,3,7],  // 49
+        vec![1,1],                 // 1
+        vec![4,3,2,1,4],          // 16
+        vec![1,2,1],              // 2
+        vec![1,8,6,2,5,4,8,25,7], // 49
+    ];
+
+    for height in test_cases {
+        println!("\n测试用例: height = {:?}", height);
+        
+        let result1 = container_traditional::max_area(height.clone());
+        println!("传统解法结果: {}", result1);
+        
+        let result2 = container_functional::max_area(height.clone());
+        println!("函数式解法结果: {}", result2);
+        
+        let result3 = container_optimized::max_area(height);
+        println!("优化解法结果: {}", result3);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+    }
+}
+
+fn test_integer_to_roman() {
+    let test_cases = vec![
+        3,      // "III"
+        4,      // "IV"
+        9,      // "IX"
+        58,     // "LVIII"
+        1994,   // "MCMXCIV"
+        3999,   // "MMMCMXCIX"
+    ];
+
+    for num in test_cases {
+        println!("\n测试用例: num = {}", num);
+        
+        let result1 = roman_traditional::int_to_roman(num);
+        println!("传统解法结果: {}", result1);
+        
+        let result2 = roman_functional::int_to_roman(num);
+        println!("函数式解法结果: {}", result2);
+        
+        let result3 = roman_optimized::int_to_roman(num);
+        println!("优化解法结果: {}", result3);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+    }
+}
+
+fn test_roman_to_integer() {
+    let test_cases = vec![
+        "III",       // 3
+        "IV",        // 4
+        "IX",        // 9
+        "LVIII",     // 58
+        "MCMXCIV",   // 1994
+        "MMMCMXCIX", // 3999
+    ];
+
+    for s in test_cases {
+        println!("\n测试用例: s = \"{}\"", s);
+        
+        let result1 = roman_to_int_traditional::roman_to_int(s.to_string());
+        println!("传统解法结果: {}", result1);
+        
+        let result2 = roman_to_int_functional::roman_to_int(s.to_string());
+        println!("函数式解法结果: {}", result2);
+        
+        let result3 = roman_to_int_optimized::roman_to_int(s.to_string());
+        println!("优化解法结果: {}", result3);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+    }
+}
+
+fn test_longest_common_prefix() {
+    let test_cases = vec![
+        vec!["flower","flow","flight"],           // "fl"
+        vec!["dog","racecar","car"],             // ""
+        vec!["interspecies","interstellar","interstate"],  // "inters"
+        vec!["throne","throne"],                  // "throne"
+        vec![""],                                 // ""
+        vec!["a"],                                // "a"
+        vec!["","b"],                             // ""
+    ];
+
+    for strs in test_cases {
+        let strs: Vec<String> = strs.into_iter().map(String::from).collect();
+        println!("\n测试用例: strs = {:?}", strs);
+        
+        let result1 = prefix_traditional::longest_common_prefix(strs.clone());
+        println!("传统解法结果: {}", result1);
+        
+        let result2 = prefix_functional::longest_common_prefix(strs.clone());
+        println!("函数式解法结果: {}", result2);
+        
+        let result3 = prefix_optimized::longest_common_prefix(strs);
+        println!("优化解法结果: {}", result3);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+    }
+}
+
+fn test_three_sum() {
+    let test_cases = vec![
+        vec![-1,0,1,2,-1,-4],              // [[-1,-1,2],[-1,0,1]]
+        vec![],                            // []
+        vec![0],                           // []
+        vec![0,0,0],                       // [[0,0,0]]
+        vec![-2,0,1,1,2],                 // [[-2,0,2],[-2,1,1]]
+        vec![-1,0,1,2,-1,-4,-2,-3,3,0,4], // 多个解
+    ];
+
+    for nums in test_cases {
+        println!("\n测试用例: nums = {:?}", nums);
+        
+        let mut result1 = three_sum_traditional::three_sum(nums.clone());
+        let mut result2 = three_sum_functional::three_sum(nums.clone());
+        let mut result3 = three_sum_optimized::three_sum(nums);
+        
+        // 排序结果以便比较
+        result1.sort();
+        result2.sort();
+        result3.sort();
+        
+        println!("传统解法结果: {:?}", result1);
+        println!("函数式解法结果: {:?}", result2);
+        println!("优化解法结果: {:?}", result3);
         
         // 验证三种解法结果一致
         assert_eq!(result1, result2);

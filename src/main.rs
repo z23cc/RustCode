@@ -103,6 +103,36 @@ use leetcode::p0015_three_sum::{
     solution_optimized as three_sum_optimized,
 };
 
+use leetcode::p0016_three_sum_closest::{
+    solution_traditional as closest_traditional,
+    solution_functional as closest_functional,
+    solution_optimized as closest_optimized,
+};
+
+use leetcode::p0017_letter_combinations::{
+    solution_traditional as combinations_traditional,
+    solution_functional as combinations_functional,
+    solution_optimized as combinations_optimized,
+};
+
+use leetcode::p0018_four_sum::{
+    solution_traditional as four_sum_traditional,
+    solution_functional as four_sum_functional,
+    solution_optimized as four_sum_optimized,
+};
+
+use leetcode::p0019_remove_nth_from_end::{
+    solution_traditional as remove_nth_traditional,
+    solution_functional as remove_nth_functional,
+    solution_optimized as remove_nth_optimized,
+};
+
+use leetcode::p0020_valid_parentheses::{
+    solution_traditional as parentheses_traditional,
+    solution_functional as parentheses_functional,
+    solution_optimized as parentheses_optimized,
+};
+
 fn main() {
     println!("测试基本迭代器操作：");
     iterator_basics::demonstrate_iterator_basics();
@@ -146,6 +176,11 @@ fn main() {
     test_roman_to_integer();
     test_longest_common_prefix();
     test_three_sum();
+    test_three_sum_closest();
+    test_letter_combinations();
+    test_four_sum();
+    test_remove_nth_from_end();
+    test_valid_parentheses();
 }
 
 fn test_two_sum() {
@@ -489,7 +524,7 @@ fn test_container_with_most_water() {
         println!("函数式解法结果: {}", result2);
         
         let result3 = container_optimized::max_area(height);
-        println!("优化解法结果: {}", result3);
+        println!("优化解���结果: {}", result3);
         
         // 验证三种解法结果一致
         assert_eq!(result1, result2);
@@ -608,6 +643,165 @@ fn test_three_sum() {
         println!("传统解法结果: {:?}", result1);
         println!("函数式解法结果: {:?}", result2);
         println!("优化解法结果: {:?}", result3);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+    }
+}
+
+fn test_three_sum_closest() {
+    let test_cases = vec![
+        (vec![-1,2,1,-4], 1),           // 2
+        (vec![0,0,0], 1),               // 0
+        (vec![1,1,1,0], 100),           // 3
+        (vec![1,2,4,8,16,32,64,128], 82),  // 82
+        (vec![-100,-98,-2,-1], -101),   // -101
+    ];
+
+    for (nums, target) in test_cases {
+        println!("\n测试用例: nums = {:?}, target = {}", nums, target);
+        
+        let result1 = closest_traditional::three_sum_closest(nums.clone(), target);
+        println!("传统解法结果: {}", result1);
+        
+        let result2 = closest_functional::three_sum_closest(nums.clone(), target);
+        println!("函数式解法结果: {}", result2);
+        
+        let result3 = closest_optimized::three_sum_closest(nums, target);
+        println!("优化解法结果: {}", result3);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+    }
+}
+
+fn test_letter_combinations() {
+    let test_cases = vec![
+        "23",       // ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+        "",         // []
+        "2",        // ["a","b","c"]
+        "234",      // ["adg","adh","adi","aeg",...,"cfh","cfi"]
+        "999",      // ["www","wwx","wwy","wxw",...,"zzz"]
+    ];
+
+    for digits in test_cases {
+        println!("\n测试用例: digits = \"{}\"", digits);
+        
+        let mut result1 = combinations_traditional::letter_combinations(digits.to_string());
+        let mut result2 = combinations_functional::letter_combinations(digits.to_string());
+        let mut result3 = combinations_optimized::letter_combinations(digits.to_string());
+        
+        // 排序结果以便比较
+        result1.sort();
+        result2.sort();
+        result3.sort();
+        
+        println!("传统解法结果: {:?}", result1);
+        println!("函数式解法结果: {:?}", result2);
+        println!("优化解法结果: {:?}", result3);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+    }
+}
+
+fn test_four_sum() {
+    let test_cases = vec![
+        (vec![1,0,-1,0,-2,2], 0),       // [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+        (vec![2,2,2,2,2], 8),           // [[2,2,2,2]]
+        (vec![1,2,3,4,5], 10),          // [[1,2,3,4]]
+        (vec![-3,-2,-1,0,1,2,3], 0),    // 多个解
+        (vec![0,0,0,0], 0),             // [[0,0,0,0]]
+    ];
+
+    for (nums, target) in test_cases {
+        println!("\n测试用例: nums = {:?}, target = {}", nums, target);
+        
+        let mut result1 = four_sum_traditional::four_sum(nums.clone(), target);
+        let mut result2 = four_sum_functional::four_sum(nums.clone(), target);
+        let mut result3 = four_sum_optimized::four_sum(nums, target);
+        
+        // 排序结果以便比较
+        result1.sort();
+        result2.sort();
+        result3.sort();
+        
+        println!("传���解法结果: {:?}", result1);
+        println!("函数式解法结果: {:?}", result2);
+        println!("优化解法结果: {:?}", result3);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+    }
+}
+
+fn test_remove_nth_from_end() {
+    let test_cases = vec![
+        (vec![1,2,3,4,5], 2),  // [1,2,3,5]
+        (vec![1], 1),          // []
+        (vec![1,2], 1),        // [1]
+        (vec![1,2,3], 3),      // [2,3]
+        (vec![1,2,3,4], 4),    // [2,3,4]
+    ];
+
+    for (arr, n) in test_cases {
+        println!("\n测试用例: arr = {:?}, n = {}", arr, n);
+        
+        // 为每个测试创建新的链表
+        let list1 = ListNode::from_array(&arr);
+        let list2 = ListNode::from_array(&arr);
+        let list3 = ListNode::from_array(&arr);
+        
+        // 执行测试并立即转换为数组
+        let result1_arr = ListNode::to_array(
+            remove_nth_traditional::remove_nth_from_end(list1, n)
+        );
+        println!("传统解法结果: {:?}", result1_arr);
+        
+        let result2_arr = ListNode::to_array(
+            remove_nth_functional::remove_nth_from_end(list2, n)
+        );
+        println!("函数式解法结果: {:?}", result2_arr);
+        
+        let result3_arr = ListNode::to_array(
+            remove_nth_optimized::remove_nth_from_end(list3, n)
+        );
+        println!("优化解法结果: {:?}", result3_arr);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1_arr, result2_arr);
+        assert_eq!(result2_arr, result3_arr);
+    }
+}
+
+fn test_valid_parentheses() {
+    let test_cases = vec![
+        "()",            // true
+        "()[]{}",        // true
+        "(]",            // false
+        "([)]",          // false
+        "{[]}",          // true
+        "",              // true
+        "(((",           // false
+        "())",           // false
+        "{[()]}",        // true
+    ];
+
+    for s in test_cases {
+        println!("\n测试用例: s = \"{}\"", s);
+        
+        let result1 = parentheses_traditional::is_valid(s.to_string());
+        println!("传统解法结果: {}", result1);
+        
+        let result2 = parentheses_functional::is_valid(s.to_string());
+        println!("函数式解法结果: {}", result2);
+        
+        let result3 = parentheses_optimized::is_valid(s.to_string());
+        println!("优化解法结果: {}", result3);
         
         // 验证三种解法结果一致
         assert_eq!(result1, result2);

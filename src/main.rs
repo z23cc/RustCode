@@ -133,6 +133,36 @@ use leetcode::p0020_valid_parentheses::{
     solution_optimized as parentheses_optimized,
 };
 
+use leetcode::p0021_merge_two_lists::{
+    solution_traditional as merge_traditional,
+    solution_functional as merge_functional,
+    solution_recursive as merge_recursive,
+};
+
+use leetcode::p0022_generate_parentheses::{
+    solution_traditional as parentheses_gen_traditional,
+    solution_functional as parentheses_gen_functional,
+    solution_optimized as parentheses_gen_optimized,
+};
+
+use leetcode::p0023_merge_k_lists::{
+    solution_traditional as merge_k_lists_traditional,
+    solution_functional as merge_k_lists_functional,
+    solution_optimized as merge_k_lists_optimized,
+};
+
+use leetcode::p0024_swap_pairs::{
+    solution_traditional as swap_pairs_traditional,
+    solution_functional as swap_pairs_functional,
+    solution_recursive as swap_pairs_recursive,
+};
+
+use leetcode::p0025_reverse_k_group::{
+    solution_traditional as reverse_k_group_traditional,
+    solution_functional as reverse_k_group_functional,
+    solution_recursive as reverse_k_group_recursive,
+};
+
 fn main() {
     println!("测试基本迭代器操作：");
     iterator_basics::demonstrate_iterator_basics();
@@ -181,6 +211,11 @@ fn main() {
     test_four_sum();
     test_remove_nth_from_end();
     test_valid_parentheses();
+    test_merge_two_lists();
+    test_generate_parentheses();
+    test_merge_k_lists();
+    test_swap_pairs();
+    test_reverse_k_group();
 }
 
 fn test_two_sum() {
@@ -286,7 +321,7 @@ fn test_median_sorted_arrays() {
         println!("传统解法结果: {}", result1);
         
         let result2 = median_functional::find_median_sorted_arrays(nums1.clone(), nums2.clone());
-        println!("函数式解法结果: {}", result2);
+        println!("函数式解法���果: {}", result2);
         
         let result3 = median_optimized::find_median_sorted_arrays(nums1, nums2);
         println!("优化解法结果: {}", result3);
@@ -362,7 +397,7 @@ fn test_zigzag_conversion() {
         let result3 = zigzag_optimized::convert(s.to_string(), num_rows);
         println!("优化解法结果: {}", result3);
         
-        // 验证三种解法结果一致
+        // 验证三种解���结果一致
         assert_eq!(result1, result2);
         assert_eq!(result2, result3);
     }
@@ -524,7 +559,7 @@ fn test_container_with_most_water() {
         println!("函数式解法结果: {}", result2);
         
         let result3 = container_optimized::max_area(height);
-        println!("优化解���结果: {}", result3);
+        println!("优化解法结果: {}", result3);
         
         // 验证三种解法结果一致
         assert_eq!(result1, result2);
@@ -601,7 +636,7 @@ fn test_longest_common_prefix() {
 
     for strs in test_cases {
         let strs: Vec<String> = strs.into_iter().map(String::from).collect();
-        println!("\n测试用例: strs = {:?}", strs);
+        println!("\n��试用例: strs = {:?}", strs);
         
         let result1 = prefix_traditional::longest_common_prefix(strs.clone());
         println!("传统解法结果: {}", result1);
@@ -635,7 +670,7 @@ fn test_three_sum() {
         let mut result2 = three_sum_functional::three_sum(nums.clone());
         let mut result3 = three_sum_optimized::three_sum(nums);
         
-        // 排序结果以便比较
+        // 排序结果以便���较
         result1.sort();
         result2.sort();
         result3.sort();
@@ -729,7 +764,7 @@ fn test_four_sum() {
         result2.sort();
         result3.sort();
         
-        println!("传���解法结果: {:?}", result1);
+        println!("传统解法结果: {:?}", result1);
         println!("函数式解法结果: {:?}", result2);
         println!("优化解法结果: {:?}", result3);
         
@@ -806,5 +841,196 @@ fn test_valid_parentheses() {
         // 验证三种解法结果一致
         assert_eq!(result1, result2);
         assert_eq!(result2, result3);
+    }
+}
+
+fn test_merge_two_lists() {
+    let test_cases = vec![
+        (vec![1,2,4], vec![1,3,4]),     // [1,1,2,3,4,4]
+        (vec![], vec![]),                // []
+        (vec![], vec![0]),               // [0]
+        (vec![1], vec![2]),              // [1,2]
+        (vec![2], vec![1]),              // [1,2]
+    ];
+
+    for (arr1, arr2) in test_cases {
+        println!("\n测试用例: list1 = {:?}, list2 = {:?}", arr1, arr2);
+        
+        let list1 = ListNode::from_array(&arr1);
+        let list2 = ListNode::from_array(&arr2);
+        
+        let result1 = merge_traditional::merge_two_lists(list1.clone(), list2.clone());
+        let result1_arr = ListNode::to_array(result1);
+        println!("传统解法结果: {:?}", result1_arr);
+        
+        let result2 = merge_functional::merge_two_lists(list1.clone(), list2.clone());
+        let result2_arr = ListNode::to_array(result2);
+        println!("函数式解法结果: {:?}", result2_arr);
+        
+        let result3 = merge_recursive::merge_two_lists(list1, list2);
+        let result3_arr = ListNode::to_array(result3);
+        println!("递归解法结果: {:?}", result3_arr);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1_arr, result2_arr);
+        assert_eq!(result2_arr, result3_arr);
+    }
+}
+
+fn test_generate_parentheses() {
+    let test_cases = vec![
+        1,  // ["()"]
+        2,  // ["(())", "()()"]
+        3,  // ["((()))", "(()())", "(())()", "()(())", "()()()"]
+        4,  // 多个结果
+    ];
+
+    for n in test_cases {
+        println!("\n测试用例: n = {}", n);
+        
+        let mut result1 = parentheses_gen_traditional::generate_parenthesis(n);
+        let mut result2 = parentheses_gen_functional::generate_parenthesis(n);
+        let mut result3 = parentheses_gen_optimized::generate_parenthesis(n);
+        
+        // 排序结果以便比较
+        result1.sort();
+        result2.sort();
+        result3.sort();
+        
+        println!("传统解法结果: {:?}", result1);
+        println!("函数式解法结果: {:?}", result2);
+        println!("优化解法结果: {:?}", result3);
+        
+        // 验证��种解法结果一致
+        assert_eq!(result1, result2);
+        assert_eq!(result2, result3);
+        
+        // 验证结果的合法性
+        for s in &result1 {
+            assert!(is_valid_parentheses(s));
+        }
+    }
+}
+
+// 辅助函数：验证括号字符串的合法性
+fn is_valid_parentheses(s: &str) -> bool {
+    let mut count = 0;
+    for c in s.chars() {
+        match c {
+            '(' => count += 1,
+            ')' => count -= 1,
+            _ => return false,
+        }
+        if count < 0 {
+            return false;
+        }
+    }
+    count == 0
+}
+
+fn test_merge_k_lists() {
+    let test_cases = vec![
+        vec![
+            vec![1,4,5],
+            vec![1,3,4],
+            vec![2,6],
+        ],  // [[1,1,2,3,4,4,5,6]]
+        vec![],  // []
+        vec![vec![]],  // []
+        vec![
+            vec![1],
+            vec![0,2],
+            vec![-1,3],
+        ],  // [[-1,0,1,2,3]]
+    ];
+
+    for lists in test_cases {
+        println!("\n测试用例: lists = {:?}", lists);
+        
+        // 将数组转换为链表
+        let lists: Vec<Option<Box<ListNode>>> = lists.iter()
+            .map(|arr| ListNode::from_array(arr))
+            .collect();
+        
+        let result1 = merge_k_lists_traditional::merge_k_lists(lists.clone());
+        let result1_arr = ListNode::to_array(result1);
+        println!("传统解法结果: {:?}", result1_arr);
+        
+        let result2 = merge_k_lists_functional::merge_k_lists(lists.clone());
+        let result2_arr = ListNode::to_array(result2);
+        println!("函数式解法结果: {:?}", result2_arr);
+        
+        let result3 = merge_k_lists_optimized::merge_k_lists(lists);
+        let result3_arr = ListNode::to_array(result3);
+        println!("优化解法结果: {:?}", result3_arr);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1_arr, result2_arr);
+        assert_eq!(result2_arr, result3_arr);
+    }
+}
+
+fn test_swap_pairs() {
+    let test_cases = vec![
+        vec![1,2,3,4],      // [2,1,4,3]
+        vec![],             // []
+        vec![1],            // [1]
+        vec![1,2,3],        // [2,1,3]
+        vec![1,2,3,4,5],    // [2,1,4,3,5]
+    ];
+
+    for arr in test_cases {
+        println!("\n测试用例: arr = {:?}", arr);
+        
+        let list = ListNode::from_array(&arr);
+        
+        let result1 = swap_pairs_traditional::swap_pairs(list.clone());
+        let result1_arr = ListNode::to_array(result1);
+        println!("传统解法结果: {:?}", result1_arr);
+        
+        let result2 = swap_pairs_functional::swap_pairs(list.clone());
+        let result2_arr = ListNode::to_array(result2);
+        println!("函数式解法结果: {:?}", result2_arr);
+        
+        let result3 = swap_pairs_recursive::swap_pairs(list);
+        let result3_arr = ListNode::to_array(result3);
+        println!("递归解法结果: {:?}", result3_arr);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1_arr, result2_arr);
+        assert_eq!(result2_arr, result3_arr);
+    }
+}
+
+fn test_reverse_k_group() {
+    let test_cases = vec![
+        (vec![1,2,3,4,5], 2),   // [2,1,4,3,5]
+        (vec![1,2,3,4,5], 3),   // [3,2,1,4,5]
+        (vec![1,2,3,4,5], 1),   // [1,2,3,4,5]
+        (vec![1], 1),           // [1]
+        (vec![], 1),            // []
+        (vec![1,2,3,4], 2),     // [2,1,4,3]
+    ];
+
+    for (arr, k) in test_cases {
+        println!("\n测试用例: arr = {:?}, k = {}", arr, k);
+        
+        let list = ListNode::from_array(&arr);
+        
+        let result1 = reverse_k_group_traditional::reverse_k_group(list.clone(), k);
+        let result1_arr = ListNode::to_array(result1);
+        println!("传统解法结果: {:?}", result1_arr);
+        
+        let result2 = reverse_k_group_functional::reverse_k_group(list.clone(), k);
+        let result2_arr = ListNode::to_array(result2);
+        println!("函数式解法结果: {:?}", result2_arr);
+        
+        let result3 = reverse_k_group_recursive::reverse_k_group(list, k);
+        let result3_arr = ListNode::to_array(result3);
+        println!("递归解法结果: {:?}", result3_arr);
+        
+        // 验证三种解法结果一致
+        assert_eq!(result1_arr, result2_arr);
+        assert_eq!(result2_arr, result3_arr);
     }
 }
